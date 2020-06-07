@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueProgressBar from 'vue-progressbar'
 import VueJsonp from 'vue-jsonp'
 import App from './App.vue'
+import './registerServiceWorker'
 
 const options = {
   color: '#ffffff',
