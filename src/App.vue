@@ -12,11 +12,11 @@
       v-model="query"
       v-on:keypress.enter="fetchWeather()"
     >
-    <div
-      class="weather"
-      v-if="typeof weather.main != 'undefined'"
-    >
-      <div class="weather-details">
+    <div class="weather">
+      <div
+        class="weather-details"
+        v-if="typeof weather.main != 'undefined'"
+      >
         <img
           class="icon"
           :src="icon()"
@@ -29,6 +29,16 @@
         <div class="climate-desc">{{weather.weather[0].main}} - <strong>{{weather.weather[0].description}}</strong></div>
         <div class="climate"> .</div>
 
+      </div>
+      <div v-else>
+        <img
+          class="icon"
+          src="./assets/logo.png"
+          alt=""
+        >
+        <div class="temp">Vue Weather App</div>
+        <div class="humidity">Made with 🖤</div>
+        <div class="climate-desc">Abhay Maurya</div>
       </div>
     </div>
     <!-- <img
@@ -222,26 +232,25 @@ export default {
   float: right;
 }
 .clear {
-  background-size: cover;
   background: #ffb75e;
-  background: -webkit-linear-gradient(to right, #ed8f03, #ffb75e);
-  background: linear-gradient(to right, #ed8f03, #ffb75e);
+  /* background: -webkit-linear-gradient(to right, #ed8f03, #ffb75e);
+  background: linear-gradient(to right, #ed8f03, #ffb75e); */
 }
 .clouds {
   background: #76b852;
-  background: -webkit-linear-gradient(to right, #8dc26f, #76b852);
-  background: linear-gradient(to right, #8dc26f, #76b852);
+  /* background: -webkit-linear-gradient(to right, #8dc26f, #76b852);
+  background: linear-gradient(to right, #8dc26f, #76b852); */
 }
 .rain {
   background: #673ab7;
-  background: -webkit-linear-gradient(to right, #512da8, #673ab7);
-  background: linear-gradient(to right, #512da8, #673ab7);
+  /* background: -webkit-linear-gradient(to right, #512da8, #673ab7);
+  background: linear-gradient(to right, #512da8, #673ab7); */
 }
 
 .snow {
   background: #8e9eab;
-  background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);
-  background: linear-gradient(to right, #eef2f3, #8e9eab);
+  /* background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);
+  background: linear-gradient(to right, #eef2f3, #8e9eab); */
 }
 
 @media only screen and (max-width: 620px) {
