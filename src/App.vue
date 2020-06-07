@@ -26,6 +26,10 @@
 
       </div>
     </div>
+    <img
+      src="./assets/loader.gif"
+      v-if="!dataFetched"
+    >
   </div>
 </template>
 
@@ -39,14 +43,18 @@ export default {
       api_url: "&units=metric&appid=7b678bd07458e876f1fff30ddcde15de",
       icon_url: "http://openweathermap.org/img/wn/",
       query: "",
-      weather: {}
+      weather: {},
+      dataFetched: true
     };
   },
   methods: {
     async fetchWeather() {
+      this.dataFetched = false;
+      this.weather = {};
       const res = await fetch(this.base_url + this.query + this.api_url);
       this.weather = await res.json();
       this.query = await this.weather.name;
+      this.dataFetched = true;
     },
     date() {
       var today = new Date();
