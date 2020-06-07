@@ -10,9 +10,14 @@
       id="search"
       placeholder="Location"
       v-model="query"
+      v-on:focus="input_focused = true"
+      v-on:blur="input_focused = false"
       v-on:keypress.enter="fetchWeather()"
     >
-    <div class="weather">
+    <div
+      class="weather"
+      :class="{hide:input_focused}"
+    >
       <div
         class="weather-details"
         v-if="typeof weather.main != 'undefined'"
@@ -61,10 +66,11 @@ export default {
       query: "",
       weather: {},
       dataFetched: true,
-      clear: true,
+      clear: false,
       clouds: false,
-      rain: false,
-      snow: false
+      rain: true,
+      snow: false,
+      input_focused: false
     };
   },
   methods: {
@@ -194,6 +200,7 @@ export default {
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  transition: 0.7s;
 }
 
 .icon {
@@ -230,6 +237,11 @@ export default {
 .climate-desc {
   font-size: 1.5rem;
   float: right;
+}
+
+.hide {
+  opacity: 20%;
+  filter: blur(3px);
 }
 .clear {
   background: #ffb75e;
