@@ -24,9 +24,9 @@
         <div class="location">{{weather.name}}, {{weather.sys.country}}</div>
         <div class="date">{{date()}}</div>
         <div class="temp">{{Math.round(weather.main.temp)}}&#176;C</div>
-        <div class="humidity">{{Math.round(weather.main.humidity)}}%</div>
-        <div class="climate">{{weather.weather[0].main}}</div>
-        <div class="climate-desc">{{weather.weather[0].description}}</div>
+        <div class="humidity">Humidity - <strong>{{Math.round(weather.main.humidity)}}%</strong></div>
+        <div class="climate-desc">{{weather.weather[0].main}} - <strong>{{weather.weather[0].description}}</strong></div>
+        <div class="climate"> .</div>
 
       </div>
     </div>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 export default {
   name: "App",
   data: () => {
@@ -57,6 +58,7 @@ export default {
   },
   methods: {
     async fetchWeather() {
+      $("input").blur();
       this.dataFetched = false;
       this.weather = {};
       const res = await fetch(this.base_url + this.query + this.api_url);
@@ -147,8 +149,7 @@ export default {
   max-width: 50rem;
   border: 0;
   padding: 20px;
-  opacity: 70%;
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 10px;
   font-size: 1rem;
   box-shadow: 5px 5px 30px -9px rgba(0, 0, 0, 0.2);
@@ -161,21 +162,56 @@ export default {
 }
 
 .weather {
-  width: 100%;
-  height: 100%;
+  width: 85%;
   max-width: 40rem;
-  margin: 20px auto;
   padding: 20px;
-  opacity: 70%;
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
   box-shadow: 5px 5px 30px -9px rgba(0, 0, 0, 0.2);
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .icon {
-  width: 100px;
+  width: 125px;
+  padding: 50px 0 0px 0;
 }
 
+.location {
+  font-size: 1.5rem;
+  float: left;
+}
+
+.date {
+  font-size: 1.5rem;
+  float: right;
+}
+
+.temp {
+  font-size: 5rem;
+  font-weight: bold;
+  padding: 0 0 110px 0;
+}
+
+.humidity {
+  font-size: 1.5rem;
+  float: left;
+}
+
+.climate {
+  font-size: 1.5rem;
+  opacity: 0;
+}
+
+.climate-desc {
+  font-size: 1.5rem;
+  float: right;
+}
 .clear {
   background-size: cover;
   background: #ffb75e;
@@ -197,5 +233,43 @@ export default {
   background: #8e9eab;
   background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);
   background: linear-gradient(to right, #eef2f3, #8e9eab);
+}
+
+@media only screen and (max-width: 620px) {
+  .icon {
+    width: 100px;
+    padding: 50px 0 0px 0;
+  }
+
+  .location {
+    font-size: 1.25rem;
+    float: left;
+  }
+
+  .date {
+    font-size: 1.2rem;
+    float: right;
+  }
+
+  .temp {
+    font-size: 4.5rem;
+    font-weight: bold;
+    padding: 0 0 100px 0;
+  }
+
+  .humidity {
+    font-size: 1.2rem;
+    float: left;
+  }
+
+  .climate {
+    font-size: 1.2rem;
+    opacity: 0;
+  }
+
+  .climate-desc {
+    font-size: 1.2rem;
+    float: right;
+  }
 }
 </style>
