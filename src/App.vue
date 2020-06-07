@@ -3,6 +3,7 @@
     id="app"
     v-bind:class="{clear: clear,snow: snow, rain: rain, clouds: clouds}"
   >
+    <vue-progress-bar></vue-progress-bar>
     <input
       type="search"
       name="Loaction"
@@ -30,10 +31,10 @@
 
       </div>
     </div>
-    <img
+    <!-- <img
       src="./assets/loader.gif"
       v-if="!dataFetched"
-    >
+    > -->
   </div>
 </template>
 
@@ -61,10 +62,19 @@ export default {
       $("input").blur();
       this.dataFetched = false;
       this.weather = {};
-      const res = await fetch(this.base_url + this.query + this.api_url);
-      this.weather = await res.json();
-      this.query = await this.weather.name;
-      this.dataFetched = true;
+      this.$Progress.start();
+      this.$jsonp(this.base_url + this.query + this.api_url).then(
+        res => {
+          this.weather = res;
+          this.query = this.weather.name;
+          this.dataFetched = true;
+          this.$Progress.finish();
+        },
+        res => {
+          console.log(res);
+          this.$Progress.fail();
+        }
+      );
     },
     date() {
       var today = new Date();
@@ -138,7 +148,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin: 0px;
   padding: 20px 10px;
   box-sizing: border-box;
