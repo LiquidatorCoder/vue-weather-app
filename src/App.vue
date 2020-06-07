@@ -10,7 +10,7 @@
       id="search"
       placeholder="Location"
       v-model="query"
-      v-on:focus="input_focused = true"
+      v-on:focus="input_focused = true,query=''"
       v-on:blur="input_focused = false"
       v-on:keypress.enter="fetchWeather()"
     >
@@ -200,7 +200,7 @@ export default {
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  transition: 0.7s;
+  transition: 0.5s;
 }
 
 .icon {
