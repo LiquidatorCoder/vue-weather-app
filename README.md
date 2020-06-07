@@ -1,4 +1,5 @@
 # vue-weather-app
+Visit https://liquidatorcoder.github.io/vue-weather-app/ to give it a try!
 
 ## Project setup
 ```
