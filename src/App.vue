@@ -1,5 +1,8 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    v-bind:class="{clear: clear,snow: snow, rain: rain, clouds: clouds}"
+  >
     <input
       type="search"
       name="Loaction"
@@ -8,12 +11,13 @@
       v-model="query"
       v-on:keypress.enter="fetchWeather()"
     >
-    <div class="weather">
-      <div
-        class="weather-details"
-        v-if="typeof weather.main != 'undefined'"
-      >
+    <div
+      class="weather"
+      v-if="typeof weather.main != 'undefined'"
+    >
+      <div class="weather-details">
         <img
+          class="icon"
           :src="icon()"
           alt=""
         >
@@ -44,7 +48,11 @@ export default {
       icon_url: "http://openweathermap.org/img/wn/",
       query: "",
       weather: {},
-      dataFetched: true
+      dataFetched: true,
+      clear: true,
+      clouds: false,
+      rain: false,
+      snow: false
     };
   },
   methods: {
@@ -67,6 +75,49 @@ export default {
     },
     icon() {
       var image_url = this.icon_url + this.weather.weather[0].icon + "@2x.png";
+      if (
+        this.weather.weather[0].icon == "01d" ||
+        this.weather.weather[0].icon == "01n"
+      ) {
+        this.clear = true;
+        this.clouds = false;
+        this.rain = false;
+        this.snow = false;
+      } else if (
+        this.weather.weather[0].icon == "02d" ||
+        this.weather.weather[0].icon == "02n" ||
+        this.weather.weather[0].icon == "03d" ||
+        this.weather.weather[0].icon == "03n" ||
+        this.weather.weather[0].icon == "04d" ||
+        this.weather.weather[0].icon == "04n"
+      ) {
+        this.clear = false;
+        this.clouds = true;
+        this.rain = false;
+        this.snow = false;
+      } else if (
+        this.weather.weather[0].icon == "09d" ||
+        this.weather.weather[0].icon == "09n" ||
+        this.weather.weather[0].icon == "10d" ||
+        this.weather.weather[0].icon == "10n" ||
+        this.weather.weather[0].icon == "11d" ||
+        this.weather.weather[0].icon == "11n"
+      ) {
+        this.clear = false;
+        this.clouds = false;
+        this.rain = true;
+        this.snow = false;
+      } else if (
+        this.weather.weather[0].icon == "13d" ||
+        this.weather.weather[0].icon == "13n" ||
+        this.weather.weather[0].icon == "50d" ||
+        this.weather.weather[0].icon == "50n"
+      ) {
+        this.clear = false;
+        this.clouds = false;
+        this.rain = false;
+        this.snow = true;
+      }
       return image_url;
     }
   }
@@ -75,13 +126,76 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+}
 #app {
+  min-height: 100vh;
   font-family: "Oxygen", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin: 0px;
-  padding: 0px;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  transition: background 1.4s;
+}
+#search {
+  width: 100%;
+  max-width: 50rem;
+  border: 0;
+  padding: 20px;
+  opacity: 70%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  font-size: 1rem;
+  box-shadow: 5px 5px 30px -9px rgba(0, 0, 0, 0.2);
+  color: #555555;
+}
+
+#search::placeholder {
+  font-size: 1rem;
+  color: #888888;
+}
+
+.weather {
+  width: 100%;
+  height: 100%;
+  max-width: 40rem;
+  margin: 20px auto;
+  padding: 20px;
+  opacity: 70%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 5px 5px 30px -9px rgba(0, 0, 0, 0.2);
+}
+
+.icon {
+  width: 100px;
+}
+
+.clear {
+  background-size: cover;
+  background: #ffb75e;
+  background: -webkit-linear-gradient(to right, #ed8f03, #ffb75e);
+  background: linear-gradient(to right, #ed8f03, #ffb75e);
+}
+.clouds {
+  background: #76b852;
+  background: -webkit-linear-gradient(to right, #8dc26f, #76b852);
+  background: linear-gradient(to right, #8dc26f, #76b852);
+}
+.rain {
+  background: #673ab7;
+  background: -webkit-linear-gradient(to right, #512da8, #673ab7);
+  background: linear-gradient(to right, #512da8, #673ab7);
+}
+
+.snow {
+  background: #8e9eab;
+  background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);
+  background: linear-gradient(to right, #eef2f3, #8e9eab);
 }
 </style>
